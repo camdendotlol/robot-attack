@@ -4,7 +4,7 @@ use robot_attack::GamePlugin;
 fn main() {
     App::new()
         .insert_resource(WindowDescriptor {
-            title: "Move the Circle".to_string(),
+            title: "Robot Attack".to_string(),
             width: 840.0,
             height: 630.0,
             ..Default::default()
