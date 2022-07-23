@@ -1,4 +1,6 @@
 use std::f32::consts::PI;
+use bevy::input::ElementState;
+use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
 use crate::bullet::Bullet;
@@ -28,33 +30,33 @@ fn init_guy(mut commands: Commands, asset_server: Res<AssetServer>) {
 }
 
 fn rotate_guy(
-    keyboard_input: Res<Input<KeyCode>>,
+    mut keyboard_input: EventReader<KeyboardInput>,
     mut query: Query<(&mut Guy, &mut Transform)>
 ) {
     let (mut guy, mut transform) = query.single_mut();
 
-    if keyboard_input.just_pressed(KeyCode::W) | keyboard_input.just_pressed(KeyCode::Up) {
-        println!("Rotating guy up");
-        guy.direction = Direction::Up;
-        transform.rotation = Quat::from_rotation_z(0.)
-    }
-
-    if keyboard_input.just_pressed(KeyCode::A) | keyboard_input.just_pressed(KeyCode::Left) {
-        println!("Rotating guy left");
-        guy.direction = Direction::Left;
-        transform.rotation = Quat::from_rotation_z(PI / 2.)
-    }
-
-    if keyboard_input.just_pressed(KeyCode::S) | keyboard_input.just_pressed(KeyCode::Down) {
-        println!("Rotating guy down");
-        guy.direction = Direction::Down;
-        transform.rotation = Quat::from_rotation_z(PI)
-    }
-
-    if keyboard_input.just_pressed(KeyCode::D) | keyboard_input.just_pressed(KeyCode::Right) {
-        println!("Rotating guy right");
-        guy.direction = Direction::Right;
-        transform.rotation = Quat::from_rotation_z(PI + PI / 2.)
+    for key in keyboard_input.iter() {
+        if key.state == ElementState::Pressed {
+            match key.key_code {
+                Some(KeyCode::W) | Some(KeyCode::Up) => {
+                    guy.direction = Direction::Up;
+                    transform.rotation = Quat::from_rotation_z(0.)
+                }
+                Some(KeyCode::A) | Some(KeyCode::Left) => {
+                    guy.direction = Direction::Left;
+                    transform.rotation = Quat::from_rotation_z(PI / 2.)
+                }
+                Some(KeyCode::S) | Some(KeyCode::Down) => {
+                    guy.direction = Direction::Down;
+                    transform.rotation = Quat::from_rotation_z(PI)
+                }
+                Some(KeyCode::D) | Some(KeyCode::Right) => {
+                    guy.direction = Direction::Right;
+                    transform.rotation = Quat::from_rotation_z(-PI / 2.)
+                }
+                _ => {}
+            }
+        }
     }
 }
 
