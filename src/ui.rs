@@ -27,18 +27,17 @@ fn init_health(
 ) {
     println!("Initializing health");
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
-    commands.spawn_bundle(UiCameraBundle::default());
 
     commands
         .spawn_bundle(NodeBundle {
             style: Style {
                 position_type: PositionType::Absolute,
-                position: Rect {
+                position: UiRect {
                     right: Val::Px(10.),
                     bottom: Val::Px(10.),
                     ..Default::default()
                 },
-                margin: Rect {
+                margin: UiRect {
                     right: Val::Px(10.),
                     ..Default::default()
                 },

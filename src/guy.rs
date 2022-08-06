@@ -1,5 +1,5 @@
 use std::f32::consts::PI;
-use bevy::input::ElementState;
+use bevy::input::ButtonState;
 use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
@@ -15,7 +15,7 @@ fn init_guy(mut commands: Commands, asset_server: Res<AssetServer>) {
     println!("Initializing guy");
     let sprite = asset_server.load("images/person-circle.png");
 
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+    commands.spawn_bundle(Camera2dBundle::default());
 
     commands
         .spawn_bundle(SpriteBundle {
@@ -36,7 +36,7 @@ fn rotate_guy(
     let (mut guy, mut transform) = query.single_mut();
 
     for key in keyboard_input.iter() {
-        if key.state == ElementState::Pressed {
+        if key.state == ButtonState::Pressed {
             match key.key_code {
                 Some(KeyCode::W) | Some(KeyCode::Up) => {
                     guy.direction = Direction::Up;
